@@ -1,6 +1,6 @@
 import { useState } from "react";
-import MediaRow from "../components/MediaRow";
-import SingleView from "../components/SingleView";
+import MediaRow from "./MediaRow";
+import SingleView from "./SingleView";
 
 const mediaArray = [
     {
@@ -72,4 +72,3 @@ const Home = () => {
     );
 };
 export default Home;
-

@@ -1,32 +1,40 @@
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-const MediaRow = (props) => {
-    const { item, setSelectedItem } = props;
-
+const SingleView = props => {
+    const { selectedItem, setSelectedItem } = props;
     const handleClick = () => {
-        setSelectedItem(item);
-    };
-
+        setSelectedItem(null);
+    }
     return (
-        <tr>
-            <td>
-                <img src={item.thumbnail} alt={item.title} />
-            </td>
-            <td>{item.title}</td>
-            <td>{item.description}</td>
-            <td>{new Date(item.created_at).toLocaleString('fi-FI')}</td>
-            <td>{item.filesize}</td>
-            <td>{item.media_type}</td>
-            <td>
-                <button onClick={handleClick}>View</button>
-            </td>
-        </tr>
+        <>
+            <dialog open={selectedItem ? true : false}>
+                <p>
+                    <button onClick={handleClick}>Close</button>
+                </p>
+                {selectedItem && (
+                    <>
+                        {selectedItem.media_type.includes('video') ?
+                            <video controls>
+                                <source src={selectedItem.filename}
+                                    type={selectedItem.media_type} />
+                            </video> : (
+                                <img src={selectedItem.filename} alt={selectedItem.title} />
+                            )}
+                        <h2>{selectedItem.title}</h2>
+                        <p>{selectedItem.description}</p>
+                        <p>Created: {new Date(selectedItem.created_at).toLocaleString('fi-FI')}</p>
+                        <p>Size: {selectedItem.filesize}</p>
+                    </>
+                )}
+            </dialog>
+        </>
     );
 };
 
-MediaRow.propTypes = {
-    item: PropTypes.object.isRequired,
+SingleView.propTypes = {
+    selectedItem: PropTypes.object.isRequired,
     setSelectedItem: PropTypes.func.isRequired,
-};
+}
 
-export default MediaRow;
+export default SingleView;
