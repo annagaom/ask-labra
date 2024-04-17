@@ -13,14 +13,14 @@ const App = () => {
         <Routes>
         <Route path="/" element={<Layout />}/>
           <Route path="/" element={<Home />}/>
-      
           <Route path="/profile" element={<Profile />} />
           <Route path="/upload" element={<Upload />} />
-          <Route path="/media/:id" element={<Layout />}/>
+          
           
           </Routes>
       </Router>
-  )
+  );
 };
 
 export default App;
+
