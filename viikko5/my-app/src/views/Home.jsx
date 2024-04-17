@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import MediaRow from '../components/MediaRow';
 
+
 const mediaArray = [
   {
     media_id: 8,

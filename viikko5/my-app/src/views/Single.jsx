@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom"
 import SingleView from "../components/SingleView"
 
+
 const Single = () => {
   const location = useLocation()
   const navigate = useNavigate()
