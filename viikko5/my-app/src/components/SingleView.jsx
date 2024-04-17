@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import Button from './UI/Button';
+import { application } from 'express';
 
 const SingleView = (props) => {
   const {selectedItem, setSelectedItem} = props;
@@ -47,4 +48,4 @@ SingleView.propTypes = {
   setSelectedItem: PropTypes.func.isRequired,
 };
 
-export default SingleView;
+export default SingleView;-application
