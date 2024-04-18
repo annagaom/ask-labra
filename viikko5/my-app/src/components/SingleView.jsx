@@ -6,6 +6,7 @@ const SingleView = (props) => {
   const handleClick = () => {
     setSelectedItem(null);
   };
+  
   return (
     <>
       <dialog
