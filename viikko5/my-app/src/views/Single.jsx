@@ -1,23 +1,20 @@
-import{useLocation} from 'react-router-dom';
+import { useLocation, useNavigate } from "react-router-dom"
+import SingleView from "../components/SingleView"
 
-const Single  = () => {
-    const location = useLocation();
-    const params = useParams();
-    const {name, age} = useLocation;
-    const navigate = useNavigate();
+const Single = () => {
+  const location = useLocation()
+  const navigate = useNavigate()
 
-    console.log("location", location);
-    console.log("Params", params);
+  if (!location.state?.item) {
+    return null
+  }
 
-    return 
-       <>
-       <h2 classaName="text-3xl"> ID: {params.id}</h2>
+  const { item } = location.state
 
-            <>
-                <dialog
-            
-            </>
-        </>
-    
-    };
+  return <SingleView
+    selectedItem={item}
+    setSelectedItem={() => navigate(-1)}
+  />
+}
 
+export default Single
