@@ -21,7 +21,7 @@ const useMedia = () => {
 
     setMediaArray(mediaWithUser);
   };
-  // TODO: move useEffect here
+//   TODO: move useEffect her
   useEffect(() => {
     getMedia();
   }, []);
@@ -39,4 +39,26 @@ const useUser = () => {
     }
 
 }
+
+const useAuthentication = () => {
+    const Login = async(inputs) => {
+        const options = {
+            method: 'POST',  
+            Headers: {           
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify (inputs),
+        };
+
+        const loginResult = await fetchData(
+            import.meta.env.VITE_AUTH_API + '/auth/login', 
+            options,
+        );
+        
+    };
+    return loginResult;
+}
+
+   
+
 export {useMedia};  
