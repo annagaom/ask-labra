@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import MediaRow from '../components/MediaRow';
 
 
@@ -41,6 +41,27 @@ const mediaArray = [
 
 const Home = () => {
   const [selectedItem, setSelectedItem] = useState(null);
+  const [mediaArray, setMediaArray] = useState([]);
+
+  const getMedia = async () => {
+    const mediaResult = await fetchData('test.json');
+    setMediaArray(mediaResult);
+    
+
+    useEffect(() => {
+      getMedia();
+    }, []);
+
+
+    console.log(mediaArray);
+    // try {
+    //   const response = await fetch('http://localhost:3001/media');
+    //   const data = await response.json();
+    //   console.log(data);
+    // } catch (error) {
+    //   console.error(error);
+    // }
+  };
 
   console.log(selectedItem);
 
