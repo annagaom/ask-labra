@@ -4,7 +4,7 @@ const Button = (props) => {
   const {text, handleClick} = props;
   return (
     <button
-      className="m-3 mt-0 rounded-lg bg-stone-500 p-3 text-stone-100"
+      className="m-3 mt-0 rounded-lg bg-red-200 p-3 text-stone-100"
       onClick={handleClick}
     >
       {text}
