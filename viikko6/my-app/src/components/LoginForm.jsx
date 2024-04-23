@@ -1,10 +1,12 @@
-import Login from "../views/login";
+import {Login} from "../views/login";
 
 // LoginForm.jsx
 const LoginForm = () => {
 
     const {login} = useAuthentication();
-     const {handSubmit, handleChange, input} = useForm();
+    const navigate = useNavigate();
+
+    const {handSubmit, handleChange, input} = useForm();
 
     const initValues= {
         username: '',
@@ -13,7 +15,17 @@ const LoginForm = () => {
     
       const dolLogin = async (credentials) => {
         console.log(inputs);
-        const userData = await login(inputs);
+        try {
+          const userData = await login(inputs);
+            console.log('doLogin', userData);
+            localStorage.setItem('token', userData.token);
+            navigate('/');
+        } catch (e) {
+            alert(e.message);
+            }
+       
+
+    
         console.log(userData);
       };
 
