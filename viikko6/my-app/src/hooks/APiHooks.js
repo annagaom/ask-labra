@@ -1,93 +1,89 @@
-import { fetchData } from "../lib/fetchData";
+import {useEffect, useState} from 'react';
+import {fetchData} from '../lib/fetchData';
 
-// TODO: add necessary imports
 const useMedia = () => {
-  const { getUserById } = useUser();
-
-  // TODO: move mediaArray state here
-  const [selectedItem, setSelectedItem] = useState(null);
-
+  const [mediaArray, setMediaArray] = useState([]);
+  const {getUserById} = useUser();
   const getMedia = async () => {
     try {
       const mediaResult = await fetchData(
-        import.meta.env.VITE_MEDIA_API + "/media"
+        import.meta.env.VITE_MEDIA_API + '/media',
       );
 
       const mediaWithUser = await Promise.all(
         mediaResult.map(async (mediaItem) => {
-          const userResult = useUser().getUserById(mediaItem.user_id);
-          return { ...mediaItem, username: userResult.username };
-        })
+          const userResult = await getUserById(mediaItem.user_id);
+          return {...mediaItem, username: userResult.username};
+        }),
       );
 
-      console.log(mediaWithUser);
+      setMediaArray(mediaWithUser);
     } catch (error) {
-      console.error("getMedia error", error.message);
+      // console.log(error);
     }
-    setMediaArray(mediaWithUser);
   };
-  //   TODO: move useEffect her
+
   useEffect(() => {
     getMedia();
   }, []);
 
-  console.log(mediaArray);
+  return {mediaArray};
 };
 
 const useUser = () => {
   const getUserById = async (id) => {
     const userResult = await fetchData(
-      import.meta.env.VITE_AUTH_API + "/users/" + id
-    );   
+      import.meta.env.VITE_AUTH_API + '/users/' + id,
+    );
     return userResult;
   };
-};
 
-const getUserByToken = async (token) => {
-   const options = {
-    header: {
-        Authorization: 'Bearer' + token,
-    },
-   };
+  const getUserByToken = async (token) => {
+    const options = {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    };
     const tokenResult = await fetchData(
-      import.meta.env.VITE_AUTH_API + "/users/token",
-      options
+      import.meta.env.VITE_AUTH_API + '/users/token',
+      options,
     );
     return tokenResult;
-};
+  };
 
-const register = async(inpus)    => {
-
-        const options = {
-            method: "POST",
-            Headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(inputs),
-        };
-        return await fetchData(import.meta.env.VITE_AUTH_API + "/users", options);
+  const register = async (inputs) => {
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(inputs),
     };
 
-//     return {getUserByToken, getUserById, register};
-// };
+    return await fetchData(import.meta.env.VITE_AUTH_API + '/users', options);
+  };
 
+  return {getUserById, getUserByToken, register};
+};
 
 const useAuthentication = () => {
-  const Login = async (inputs) => {
+  const login = async (inputs) => {
     const options = {
-      method: "POST",
-      Headers: {
-        "Content-Type": "application/json",
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(inputs),
     };
 
     const loginResult = await fetchData(
-      import.meta.env.VITE_AUTH_API + "/auth/login",
-      options
+      import.meta.env.VITE_AUTH_API + '/auth/login',
+      options,
     );
+    return loginResult;
   };
-  return loginResult;
+
+  return {login};
 };
 
-export { useMedia };
+export {useMedia, useUser, useAuthentication};

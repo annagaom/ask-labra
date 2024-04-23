@@ -1,77 +1,66 @@
-
-import {useUser} from "../contexts/UserContext";
-import useForm from "../hooks/formHooks";
-import Button from "./UI/Button";
-
+import {useUser} from '../hooks/APiHooks';
+import useForm from '../hooks/formHooks';
+import Button from '../components/UI/Button';
 
 const RegisterForm = () => {
-}import {Registeri} from "../views/Registeri";
+  const {register} = useUser();
 
-// RegisteriForm.jsx
-const re = () => {
+  const initValues = {
+    username: '',
+    password: '',
+    email: '',
+  };
 
-    const {Registeri} = useAuthentication();
+  const doRegister = async () => {
+    console.log('doRegister', inputs);
+    try {
+      const userData = await register(inputs);
+      console.log('doRegister', userData);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
-    const {handSubmit, handleChange, input} = useForm();
+  const {handleSubmit, handleInputChange, inputs} = useForm(
+    doRegister,
+    initValues,
+  );
 
-    const initValues= {
-        username: '',
-        password: '',
-      };
-    
-      const dolRegisteri = async (credentials) => {
-        console.log(inputs);
-        try {
-          const userData = await Registeri(inputs);
-            console.log('doRegisteri', userData);
-        
-        } catch (e) {
-            alert(e.message);
-            }
-       
-
-    
-        console.log(userData);
-      };
-
-    return (
-        <>
-            <h1>Registeri</h1>
-            <form onSubmit={ (handleSubmit) => {} }>
-                 <div>
-                     <label htmlFor="Registeriuser">Username</label>
-                    <input
-                        name="username"
-                        type="text"
-                        id="Registeriuser"
-                        onChange={ () => {} }
-                    
-                    />
-                </div>
-                <div>
-                    <label htmlFor="Registeripassword">Password</label>
-                     <input
-                        name="password"
-                        type="password"
-                        id="Registeripassword"
-                        onChange={ (handleChange, input) => {} }
-                      
-                    />
-                </div>
-                <div>
-                     <label htmlFor="Registeriemail">Useremail</label>
-                    <input
-                        name="useremail"
-                        type="text"
-                        id="Registeriemail"
-                        onChange={ () => {} }
-                    
-                    />
-                </div>
-                <button type="submit">Registeri</button>
-            </form>
-        </>
-    );
+  return (
+    <>
+      <h1>Register</h1>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="registeruser">Username</label>
+          <input
+            name="username"
+            type="text"
+            id="registeruser"
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="registeremail">Email</label>
+          <input
+            name="email"
+            type="email"
+            id="registeremail"
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="registerpassword">Password</label>
+          <input
+            name="password"
+            type="password"
+            id="registerpassword"
+            onChange={handleInputChange}
+          />
+        </div>
+        <Button text="Register" />
+      </form>
+    </>
+  );
 };
 
-export default RegisteriForm;
+export default RegisterForm;

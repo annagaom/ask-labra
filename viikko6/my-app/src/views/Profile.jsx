@@ -1,50 +1,41 @@
-import { useEffect, useState } from "react";
-import {Link} from "react-router-dom";
-
+import {Link} from 'react-router-dom';
+import {useUser} from '../hooks/APiHooks';
+import {useEffect, useState} from 'react';
 
 export const Profile = () => {
-  const {user, setUser} = useState(null);
+  const [user, setUser] = useState(null);
   const {getUserByToken} = useUser();
 
-
-  useEffect (() => {
-    const getUser = async ( )=> {
+  const getUser = async () => {
+    try {
       const token = localStorage.getItem('token');
-      const userDate = await getUserByToken(token);
+      const userData = await getUserByToken(token);
       setUser(userData.user);
-    };
-    useEffect(() => {
-      getUser();
-   
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
-
+  useEffect(() => {
+    getUser();
   }, []);
 
-
-
-
-
-  return <div>
-      <h2 className="text-2xl font-bold"> Tämä on minun profiilisivu</h2>
+  return (
+    <div>
+      <h2 className="text-2xl font-bold">Tämä on minun profiilisivu</h2>
 
       <p>
-      <Link to ="/">Etusivulle</Link>
+        <Link to="/">Navigoi takaisin etusivulle</Link>
       </p>
       <div>
         {user && (
           <>
-          <p>Käyttäjätunnus: {user.username}</p>
-          <p>email: {user.email}</p>
-          <p>Luotu: {}new Date()</p>
-          
+            <p>Käyttäjätunnus: {user.username} </p>
+            <p>email: {user.email} </p>
+            <p>luotu: {new Date(user.created_at).toLocaleString('fi-FI')}</p>
           </>
-        )
-      
-      <p>Käyttäjätunnus: {user.username}</p>}
+        )}
       </div>
-      
     </div>
-  
+  );
 };
-
-export default Profile;
