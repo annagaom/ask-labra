@@ -3,12 +3,22 @@ import {Link, Outlet} from 'react-router-dom';
 const Layout = () => (
   <div>
     <header>
-      <nav>
-        <Link to="/">Etusivu 🏠</Link>
-        <Link to="/profile">Profiili 😃</Link>
+    <nav>
+    <ul>
+      <li>
+        <Link to="/">Home</Link>
+      </li>
+      <li>
+        <Link to="/profile">Profile</Link>
+      </li>
+      <li>
         <Link to="/upload">Upload</Link>
-        <Link to="/login">Login</Link>
-      </nav>
+      </li>
+      <li>
+      <Link to="/login">Login</Link>
+      </li>
+    </ul>
+  </nav>
     </header>
     <main>
       <Outlet />
@@ -18,3 +28,4 @@ const Layout = () => (
 );
 
 export default Layout;
+
