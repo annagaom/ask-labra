@@ -48,6 +48,9 @@ table {
   border-collapse: collapse;
 }
 
+ul {
+  text-align: center;
+}
 td,
 th {
   padding: 1rem;
