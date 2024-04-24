@@ -1,32 +1,21 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link } from 'react-router-dom';
+import Button from './UI/Button';
+import { useUserContext } from '../contexts/UserContext';
 
 const SiteNavigation = () => {
-    const {handleLogout} = useUserContext();
-    return (
-        <nav>
-        <ul>
-        <li>
-        <Link to="/">Home</Link>
-        </li>
-        <li>
-        <Link to="/profile">Profile</Link>
-        </li>
-        <li>
+  const { user, handleLogout } = useUserContext()
+  console.log("user", user)
+  return (
+    <nav>
+      <Link to="/">Etusivu 🏠</Link>
+      {user !== undefined && <>
+        <Link to="/profile">Profiili 😃</Link>
         <Link to="/upload">Upload</Link>
-        </li>
-        <li>
-       {!user && <Link to="/login">Login</Link>}
-        </li>
-        {user && !== undefind && <button text= }
-        </ul>
-        <button text = "Logout" onClick = {() => {
-            console.log("Click on logout");
-            handleLogout();
-        }}/>
-    
-        </nav>
-    );
-
+        <Button text="Logout" handleClick={handleLogout} />
+      </>}
+      {!user && <Link to="/login">Login</Link>}
+    </nav>
+  );
 }
 
 export default SiteNavigation;
