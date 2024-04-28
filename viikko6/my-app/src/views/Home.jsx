@@ -4,9 +4,11 @@ import {useMedia} from '../hooks/APiHooks';
 
 const Home = () => {
   // const [selectedItem, setSelectedItem] = useState(null);
-  const {mediaArray}= use();
 
-  console.log(mediaArray);
+  const Home = () => {
+    const { mediaArray } = useMedia();
+
+    console.log(mediaArray);
 
   return (
     <>
@@ -37,4 +39,5 @@ const Home = () => {
     </>
   );
 };
+
 export default Home;
