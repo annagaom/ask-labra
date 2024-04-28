@@ -1,5 +1,5 @@
 import {useNavigate} from 'react-router-dom';
-import {useAuthentication} from '../hooks/APiHooksrs';
+import {useAuthentication} from '../';
 import useForm from '../hooks/FormHooks';
 import Button from './UI/Button';
 
