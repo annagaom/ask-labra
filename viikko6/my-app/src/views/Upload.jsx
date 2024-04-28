@@ -1,87 +1,125 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import {useMedia, useFile} from '../hooks/APiHooks';
 
-const baseApiUrl = "http://127.0.0.1:3000"
+//const baseApiUrl = "http://127.0.0.1:3000"
+
 
 const Upload = () => {
-  const [file, setFile] = useState(null)
-  const [name, setName] = useState("")
-  const [apiResult, setApiResult] = useState(null)
+  const [file, setFile] = useState(null);
+  const [inputs, setInputs] = useState({ title: '', description: '' });
+  const { postFile } = useFile();
+  const { postMedia } = useMedia();
+  const token = localStorage.getItem('token');
 
+  const doUpload = async () => {
+    try {
+        const uploadResult = await postFile(file, token);
+        console.log('doUpload', uploadResult);
+
+        const postMediaResult = await postMedia(uploadResult, inputs, token);
+        console.log('post media result', postMediaResult);
+
+        navigate('/');
+    } catch (error) {
+        console.error(error.message);
+    }
+};
+
+
+  const handleInputChange = (event) => {
+
+    setInputs({ ...inputs, [event.target.name]: event.target.value });
+  };
+
+  const handleFileChange = (event) => {
+    if (event.target.files) {
+      setFile(event.target.files[0]);
+    }
+  };
+
+  
   const handleSubmit = async (event) => {
-    event.preventDefault()
+    event.preventDefault(); // Estä lomakkeen oletuslähetyksen
+    setApiResult(null);
+  
+    // Luodaan FormData ja lisätään siihen tiedot
+    const formData = new FormData();
+    const [apiResult, setApiResult] = useState(null);
 
-    // clear possible previous api result
-    setApiResult(null)
+    formData.append("title", inputs.title);
+    formData.append("description", inputs.description);
+    formData.append("thumbnail", file);
 
-    console.log("file", file)
-    console.log("name", name)
-
-    const formData = new FormData()
-    formData.append("file", file)
-    formData.append("name", name)
-
-    // send local state values (name, file) to a backend
-    const response = await fetch(`${baseApiUrl}/post-test`, {
+    // Lähetetään FormData POST-pyynnöllä
+    const response = await fetch(``, {
       method: "post",
       body: formData
-    })
+    });
 
-    const result = await response.json()
-
-    console.log("result", result)
-
-    setApiResult(result)
+    // Käsitellään vastaus
+    const result = await response.json();
+    console.log("result", result);
+    setApiResult(result);
   }
-
-  return <>
-  {apiResult !== null && <div>
-    <img src={`${baseApiUrl}/${apiResult.file.path}`} />
-    </div>}
-    <form onSubmit={handleSubmit}>
-      <input
-        type="file"
-        name="tiedosto"
-        onChange={(event) => {
-          setApiResult(null)
-          console.log("event", event)
-          setFile(event.target.files[0])
-        }}
-      /><br />
-
-      {file !== null &&
-        <p>
-          Preview:<br />
-          <img src={URL.createObjectURL(file)} />
-        </p>
-      }
-
-      <label htmlFor="name">Name</label>
-      <input
-        type="text"
-        id="name"
-        name="name"
-        onChange={(event) => {
-          setApiResult(null)
-          setName(event.target.value)
-        }}
-      />
-      <button
-        className="
-          m-3 mt-0
-          p-3
-          rounded-lg
-          bg-blue-400 text-white
-        "
-        type="submit"
-      >Upload file</button>
-    </form>
-
-    <p className="mt-12">
+  
+  return (
+    <>
+      <h1>Upload</h1>
+  
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="title">Title</label>
+          <input
+            name="title"
+            type="text"
+            id="title"
+            value={inputs.title}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="description">Description</label>
+          <textarea
+            name="description"
+            rows={5}
+            id="description"
+            value={inputs.description}
+            onChange={handleInputChange}
+          ></textarea>
+        </div>
+        <div>
+          <label htmlFor="file">File</label>
+          <input
+            name="thumbnail"
+            type="file"
+            id="file"
+            accept="image/*, video/*"
+            onChange={handleFileChange}
+          />
+        </div>
+        <img
+          src={
+            file
+              ? URL.createObjectURL(file)
+              : 'https://via.placeholder.com/200?text=Choose+image'
+          }
+          alt="preview"
+          width="200"
+        />
+        <button
+          type="submit"
+          disabled={!(file && inputs.title.length > 3)}
+        >
+          Upload
+        </button>
+      </form>
+      <p className="mt-12">
       <Link to="/">Back to home</Link>
     </p>
-  </>
-}
 
+    </>
+  );
+};
 
-export default Upload
+export default Upload;
