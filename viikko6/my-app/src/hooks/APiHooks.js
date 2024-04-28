@@ -1,10 +1,9 @@
-// TODO: add necessary imports
+import {useEffect, useState} from 'react';
+import {fetchData} from '../lib/fetchData';
+
 const useMedia = () => {
-    const {getUserById} = useUser();
-
-    // TODO: move mediaArray state here
-    const [selectedItem, setSelectedItem] = useState(null);
-
+  const [mediaArray, setMediaArray] = useState([]);
+  const {getUserById} = useUser();
   const getMedia = async () => {
     const mediaResult = await fetchData(
       import.meta.env.VITE_MEDIA_API + '/media',
@@ -12,31 +11,30 @@ const useMedia = () => {
 
     const mediaWithUser = await Promise.all(
       mediaResult.map(async (mediaItem) => {
-        const userResult = useUser().getUserById(mediaItem.user_id);
+        const userResult = await getUserById(mediaItem.user_id);
         return {...mediaItem, username: userResult.username};
       }),
     );
 
-    console.log(mediaWithUser);
-
     setMediaArray(mediaWithUser);
   };
-  // TODO: move useEffect here
+
   useEffect(() => {
     getMedia();
   }, []);
 
-  console.log(mediaArray);
-
-}
+  return {mediaArray};
+};
 
 const useUser = () => {
-    const getUserById = async(id) => { 
-        const userResult = await fetchData(
-            import.meta.env.VITE_AUTH_API + '/users/' + id,
-        );
-        return userResult;
-    }
+  const getUserById = async (id) => {
+    const userResult = await fetchData(
+      import.meta.env.VITE_AUTH_API + '/users/' + id,
+    );
+    return userResult;
+  };
 
-}
-export {useMedia};  
+  return {getUserById};
+};
+
+export {useMedia, useUser};
