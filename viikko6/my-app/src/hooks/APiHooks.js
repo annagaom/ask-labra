@@ -86,4 +86,34 @@ const useAuthentication = () => {
   return {login};
 };
 
-export {useMedia, useUser, useAuthentication};
+
+const useFile = () => {
+  const postFile = async (file, token) => {
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await fetch(import.meta.env.VITE_UPLOAD_SERVER + '/upload', {
+        method: 'POST',
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to upload file');
+      }
+
+      const fileData = await response.json();
+      return fileData;
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      throw error;
+    }
+  };
+
+  return { postFile };
+};
+
+export {useMedia, useUser, useAuthentication, useFile};
