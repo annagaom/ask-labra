@@ -4,5 +4,5 @@ import react from '@vitejs/plugin-react-swc'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/~annagao/custom-hooks/',
+  base: '/~annagao/wsk1/custom-hooks/',
 });

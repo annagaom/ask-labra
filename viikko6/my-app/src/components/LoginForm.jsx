@@ -1,6 +1,6 @@
 import {useNavigate} from 'react-router-dom';
-import {useAuthentication} from '../hooks/apiHooks';
-import useForm from '../hooks/formHooks';
+import {useAuthentication} from '../hooks/APiHooksrs';
+import useForm from '../hooks/FormHooks';
 import Button from './UI/Button';
 
 // LoginForm.jsx
