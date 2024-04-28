@@ -2,31 +2,19 @@ import { useEffect, useState } from 'react';
 import MediaRow from '../components/MediaRow';
 import { fetchData } from '../lib/fetchData';
 
+
 const Home = () => {
   const [mediaArray, setMediaArray] = useState([]);
-
   const getMedia = async () => {
     try {
-      const mediaResult = await fetchData(
-        `${import.meta.env.VITE_MEDIA_API}/media`
-      );
-
-      const mediaWithUser = await Promise.all(
-        mediaResult.map(async (mediaItem) => {
-          const userResult = await fetchData(
-            `${import.meta.env.VITE_AUTH_API}/users/${mediaItem.user_id}`
-          );
-          return { ...mediaItem, username: userResult.username };
-        })
-      );
-
-      console.log(mediaWithUser);
-      setMediaArray(mediaWithUser);
+      const json = await fetchData('/~annagao/wsk1/hooks/test.json');
+      setMediaArray(json);
     } catch (error) {
       console.error('Error fetching media:', error);
     }
   };
 
+  console.log(mediaArray);
   useEffect(() => {
     getMedia();
   }, []);
