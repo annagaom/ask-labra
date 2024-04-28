@@ -4,12 +4,13 @@ import { fetchData } from '../lib/fetchData';
 
 const Home = () => {
   const [mediaArray, setMediaArray] = useState([]);
+
   const getMedia = async () => {
     try {
       const mediaResult = await fetchData(
         `${import.meta.env.VITE_MEDIA_API}/media`
       );
-  
+
       const mediaWithUser = await Promise.all(
         mediaResult.map(async (mediaItem) => {
           const userResult = await fetchData(
@@ -18,19 +19,17 @@ const Home = () => {
           return { ...mediaItem, username: userResult.username };
         })
       );
-  
+
       console.log(mediaWithUser);
-  
       setMediaArray(mediaWithUser);
     } catch (error) {
       console.error('Error fetching media:', error);
     }
   };
-  
+
   useEffect(() => {
     getMedia();
   }, []);
-
   console.log(mediaArray);
 
   return (
