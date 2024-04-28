@@ -2,10 +2,10 @@ import {Outlet} from 'react-router-dom';
 import SiteNavigation from '../components/SiteNavigation';
 
 const Layout = () => (
+ 
   <div>
-
+    <header>
       <SiteNavigation />
-
     </header>
     <main>
       <Outlet />
