@@ -1,4 +1,7 @@
+
+
 import MediaRow from '../components/MediaRow';
+import UserData from '../components/UserData';
 import {useMedia} from '../hooks/APiHooks';
 
 const Home = () => {
@@ -8,6 +11,10 @@ const Home = () => {
 
   return (
     <>
+
+      <UserData />
+
+
       <h2>My Media</h2>
       <table>
         <thead>
