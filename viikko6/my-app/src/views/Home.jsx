@@ -14,7 +14,7 @@ const Home = () => {
     }
   };
 
-  console.log(mediaArray);
+ 
   useEffect(() => {
     getMedia();
   }, []);
