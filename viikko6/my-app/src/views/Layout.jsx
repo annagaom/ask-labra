@@ -3,8 +3,9 @@ import SiteNavigation from '../components/SiteNavigation';
 
 const Layout = () => (
   <div>
-    <header>
+
       <SiteNavigation />
+
     </header>
     <main>
       <Outlet />
@@ -14,3 +15,4 @@ const Layout = () => (
 );
 
 export default Layout;
+
